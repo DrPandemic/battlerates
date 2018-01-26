@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.label.type == db]
+
+volumes:
+  db-data:
