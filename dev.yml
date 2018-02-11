@@ -13,6 +13,13 @@ services:
       replicas: 1
       placement:
         constraints: [node.label.type == db]
+  crawler:
+    build:
+      context: ./crawler
+    env_file:
+      - .env
+    volumes:
+      - ./crawler/:/app/
 
 volumes:
   db-data:
