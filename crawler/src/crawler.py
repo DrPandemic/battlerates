@@ -1,7 +1,10 @@
 import logging
+from enum import Enum
 from battlerite_client.client import Match, Response
 
 class Crawler:
+    SAVE_TYPES = Enum('Save types', 'MATCH ROUND ROSTER PARTICIPANT PLAYER')
+
     def __init__(self, client, database, rate: int):
         """
         The rate is in op/minute.
@@ -30,3 +33,20 @@ class Crawler:
         Saves matches to db.
         """
         print([match.type for match in matches])
+
+    def save(self, obj, connection, save_type: SAVE_TYPES) -> int:
+        """
+        Saves the obj into the DB.
+        """
+        if self.save_type == SAVE_TYPES.MATCH:
+            raise NotImplementedError()
+        if self.save_type == SAVE_TYPES.ROUND:
+            raise NotImplementedError()
+        if self.save_type == SAVE_TYPES.ROSTER:
+            raise NotImplementedError()
+        if self.save_type == SAVE_TYPES.PARTICIPANT:
+            raise NotImplementedError()
+        if self.save_type == SAVE_TYPES.PLAYER:
+            raise NotImplementedError()
+        else:
+            raise NotImplementedError()
