@@ -38,15 +38,15 @@ class Crawler:
         """
         Saves the obj into the DB.
         """
-        if self.save_type == SAVE_TYPES.MATCH:
+        if save_type == SAVE_TYPES.MATCH:
             raise NotImplementedError()
-        if self.save_type == SAVE_TYPES.ROUND:
+        if save_type == SAVE_TYPES.ROUND:
             raise NotImplementedError()
-        if self.save_type == SAVE_TYPES.ROSTER:
+        if save_type == SAVE_TYPES.ROSTER:
             raise NotImplementedError()
-        if self.save_type == SAVE_TYPES.PARTICIPANT:
+        if save_type == SAVE_TYPES.PARTICIPANT:
             raise NotImplementedError()
-        if self.save_type == SAVE_TYPES.PLAYER:
+        if save_type == SAVE_TYPES.PLAYER:
             raise NotImplementedError()
         else:
             raise NotImplementedError()

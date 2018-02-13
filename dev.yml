@@ -17,7 +17,7 @@ services:
     build:
       context: ./crawler
     env_file:
-      - .env
+      - dot.env
     volumes:
       - ./crawler/:/app/
 
