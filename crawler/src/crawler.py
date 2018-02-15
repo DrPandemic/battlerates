@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-from battlerite_client.client import Match, Response
+from battlerite_client.client import Match, Response, Player
 
 class Crawler:
     SAVE_TYPES = Enum('Save types', 'MATCH ROUND ROSTER PARTICIPANT PLAYER')
@@ -36,7 +36,7 @@ class Crawler:
 
     def save(self, obj, connection, save_type: SAVE_TYPES) -> int:
         """
-        Saves the obj into the DB.
+        Saves the obj into the DB. Assumes that the database session was created (connection parameter).
         """
         if save_type == SAVE_TYPES.MATCH:
             raise NotImplementedError()
@@ -47,6 +47,20 @@ class Crawler:
         if save_type == SAVE_TYPES.PARTICIPANT:
             raise NotImplementedError()
         if save_type == SAVE_TYPES.PLAYER:
-            raise NotImplementedError()
+            #obj is a Player 
+            cur = connection.cursor()
+            cur.execute("SELECT ID FROM Player WHERE StrID = %s", (obj.id,))
+            row = cur.fetchone()
+            
+            if row is None:
+                #insert et retourne le ID de la row
+                cur.execute("INSERT INTO Player (StrID, Name, PatchVersion, ShardID, TitleID) VALUES (%s, %s, %s, %s, %s)", 
+                    (obj.id, obj.name, obj.patch_version, obj.shard_id, obj.title_id))
+            
+            cur.execute("SELECT ID FROM Player WHERE StrID = %s", (obj.id,))
+            newrow = cur.fetchone()
+            conn.commit()
+            cur.close()
+            return newrow[1]
         else:
             raise NotImplementedError()
