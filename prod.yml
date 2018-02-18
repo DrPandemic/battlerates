@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.type == db]
+  crawler:
+    image: drpandemic/battlerates-crawler
+    env_file:
+      - dot.env
+    deploy:
+      replicas: 1
+  edge:
+    image: drpandemic/battlerates-edge
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.type == edge]
+#  api:
+#    image: drpandemic/battlerates-api
+#    env_file:
+#      - dot.env
+#    deploy:
+#      replicas: 1
+
+volumes:
+  db-data:

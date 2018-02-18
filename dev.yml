@@ -6,13 +6,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: admin
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.label.type == db]
   crawler:
     build:
       context: ./crawler
@@ -20,6 +16,19 @@ services:
       - dot.env
     volumes:
       - ./crawler/:/app/
+  edge:
+    build:
+      context: ./
+      dockerfile: ./edge/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./web/dst/:/app/dst/
+  api:
+    build:
+      context: ./api
+    env_file:
+      - dot.env
 
 volumes:
   db-data:
