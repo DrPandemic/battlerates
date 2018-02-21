@@ -19,7 +19,7 @@ services:
   edge:
     build:
       context: ./
-      dockerfile: ./edge/Dockerfile
+      dockerfile: ./edge/Dockerfile-dev
     ports:
       - "80:80"
     volumes:
@@ -29,6 +29,16 @@ services:
       context: ./api
     env_file:
       - dot.env
+    volumes:
+      - ./api/src/:/app/src/
+      - ./api/app.js:/app/app.js
+  web:
+    build:
+      context: ./web
+    env_file:
+      - dot.env
+    volumes:
+      - ./web/:/app/
 
 volumes:
   db-data:

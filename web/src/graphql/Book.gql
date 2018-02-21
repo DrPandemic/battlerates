@@ -1,0 +1,6 @@
+query book($input: String) {
+  book (title: $input) {
+    title,
+    author
+  }
+}
