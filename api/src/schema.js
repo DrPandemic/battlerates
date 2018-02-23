@@ -14,13 +14,22 @@ const books = [
 
 // The GraphQL schema in string form
 const typeDefs = `
-  type Query { books: [Book] }
+  type Query {
+    book(title: String): Book
+    allBooks: [Book]
+  }
   type Book { title: String, author: String }
 `;
 
 // The resolvers
 const resolvers = {
-  Query: { books: () => books },
+  Query: {
+    allBooks: () => books,
+    book: (root, args) => {
+      console.log(root, args);
+      return books.find(b => b.title === args.title);
+    }
+  },
 };
 
 // Put together a schema
